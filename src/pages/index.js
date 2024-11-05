@@ -1,176 +1,145 @@
-import * as React from "react"
+import React from 'react';
+import NavbarComp from './components/pageComponents/navbarcomp';
+import Footer from './components/pageComponents/footercomp';
+import DATA_API from '../api';
+import { formatDistanceToNow } from 'date-fns';
+import HeadComp from './components/pageComponents/headcomp';
 
-const pageStyles = {
-  color: "#232129",
-  padding: 96,
-  fontFamily: "-apple-system, Roboto, sans-serif, serif",
-}
-const headingStyles = {
-  marginTop: 0,
-  marginBottom: 64,
-  maxWidth: 320,
-}
-const headingAccentStyles = {
-  color: "#663399",
-}
-const paragraphStyles = {
-  marginBottom: 48,
-}
-const codeStyles = {
-  color: "#8A6534",
-  padding: 4,
-  backgroundColor: "#FFF4DB",
-  fontSize: "1.25rem",
-  borderRadius: 4,
-}
-const listStyles = {
-  marginBottom: 96,
-  paddingLeft: 0,
-}
-const listItemStyles = {
-  fontWeight: 300,
-  fontSize: 24,
-  maxWidth: 560,
-  marginBottom: 30,
-}
+const App = () => {
+    const { data: news, loading, error } = DATA_API('terbaru');
+    const { data: nasionalNews, loading: nasionalLoading, error: nasionalError } = DATA_API('nasional');
+    const { data: internasionalNews, loading: internasionalLoading, error: internasionalError } = DATA_API('internasional');
+    const { data: ekonomiNews, loading: ekonomiLoading, error: ekonomiError } = DATA_API('ekonomi');
+    const { data: olgaNews, loading: olgaLoading, error: olgaError } = DATA_API('olahraga');
+    const { data: teknoNews, loading: teknoLoading, error: teknoError } = DATA_API('teknologi');
+    const { data: funNews, loading: funLoading, error: funError } = DATA_API('hiburan');
+    const { data: lifeNews, loading: lifeLoading, error: lifeError } = DATA_API('gayaHidup');
 
-const linkStyle = {
-  color: "#8954A8",
-  fontWeight: "bold",
-  fontSize: 16,
-  verticalAlign: "5%",
-}
+    // Memeriksa apakah ada proses yang masih loading
+    const isLoading = [loading, nasionalLoading, internasionalLoading, ekonomiLoading, olgaLoading, teknoLoading, funLoading, lifeLoading].some((status) => status);
+    if (isLoading) return <div className="text-center mt-10">Loading...</div>;
 
-const docLinkStyle = {
-  ...linkStyle,
-  listStyleType: "none",
-  marginBottom: 24,
-}
+    // Memeriksa apakah ada error
+    const hasError = [error, nasionalError, internasionalError, ekonomiError, olgaError, teknoError, funError, lifeError].find((err) => err);
+    if (hasError) return <div className="text-danger text-center my-5">Error: {hasError}</div>;
 
-const descriptionStyle = {
-  color: "#232129",
-  fontSize: 14,
-  marginTop: 10,
-  marginBottom: 0,
-  lineHeight: 1.25,
-}
+    return (
+        <>
+            <HeadComp />
+            <NavbarComp />
+            <div className="mt-15">
+                <h1 className="text-center mb-4 fs-1 fw-bold">From the CNN News</h1>
+                <h2 className="text-center mb-4 fs-5 text-gray">Latest news update for today!</h2>
+            </div>
+            <div className="container mb-5 d-flex justify-content-between">
+                <div className="row mx-3 w-100 h-100">
+                    <h3 className='fw-bold mb-5 span-red'>TERBARU</h3>
+                    {news.slice(0, 12).map((article, index) => (
+                        <div key={index} className="col-md-4 mb-4">
+                            <div className="card">
+                                <img src={article.thumbnail} alt={article.title} className="card-img-top cursor-pointer" />
+                                <div className="card-body">
+                                    <a href={article.link} className="fs-5 text-decoration-none card-title title-hover" target="_blank" rel="noopener noreferrer">{article.title}</a>
+                                    <p className='text-danger'>{formatDistanceToNow(new Date(article.pubDate), { addSuffix: true })}</p>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                    <div className='p-3 row rounded-1' style={{ backgroundImage: 'linear-gradient(to bottom, #AF1740 50%, white 50%)' }}>
+                        <h3 className='fw-bold my-5 text-light nasional'>NASIONAL</h3>
+                        {nasionalNews.slice(0, 8).map((article, index) => (
+                            <div key={index} className="col-md-4 mb-4">
+                                <div className="card">
+                                    <img src={article.thumbnail} alt={article.title} className="card-img-top cursor-pointer" />
+                                    <div className="card-body">
+                                        <a href={article.link} className="fs-5 text-decoration-none card-title title-hover" target="_blank" rel="noopener noreferrer">{article.title}</a>
+                                        <p className='text-danger'>{formatDistanceToNow(new Date(article.pubDate), { addSuffix: true })}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                    <h3 className='fw-bold my-5 span-red'>INTERNASIONAL</h3>
+                    {internasionalNews.slice(0, 8).map((article, index) => (
+                        <div key={index} className="col-md-3 mb-4">
+                            <div className="card">
+                                <img src={article.thumbnail} alt={article.title} className="card-img-top cursor-pointer" />
+                                <div className="card-body">
+                                    <a href={article.link} className="fs-5 text-decoration-none card-title title-hover" target="_blank" rel="noopener noreferrer">{article.title}</a>
+                                    <p className='text-danger'>{formatDistanceToNow(new Date(article.pubDate), { addSuffix: true })}</p>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                    <h3 className='fw-bold my-5 span-red'>EKONOMI</h3>
+                    {ekonomiNews.slice(0, 14).map((article, index) => (
+                        <div key={index} className="col-md-8 mb-4">
+                            <div className="d-flex flex-row">
+                                <img src={article.thumbnail} alt={article.title} className="card-img-top rounded-2" style={{ width: '30%', height: 'auto' }} />
+                                <div className="d-flex flex-column justify-content-between mx-3">
+                                    <a href={article.link} className="fs-5 text-decoration-none card-title title-hover" target="_blank" rel="noopener noreferrer">{article.title}</a>
+                                    <p className='text-danger'>{formatDistanceToNow(new Date(article.pubDate), { addSuffix: true })}</p>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                    <h3 className='fw-bold my-5 span-red'>OLAHRAGA</h3>
+                    {olgaNews.slice(0, 8).map((article, index) => (
+                        <div key={index} className="col-md-3 mb-4">
+                            <div className="card">
+                                <img src={article.thumbnail} alt={article.title} className="card-img-top cursor-pointer" />
+                                <div className="card-body">
+                                    <a href={article.link} className="fs-5 text-decoration-none card-title title-hover" target="_blank" rel="noopener noreferrer">{article.title}</a>
+                                    <p className='text-danger'>{formatDistanceToNow(new Date(article.pubDate), { addSuffix: true })}</p>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                    <div className='p-3 row rounded-1' style={{ backgroundColor: '#F5F5F5' }}>
+                        <h3 className='fw-bold my-5 span-red'>TEKNOLOGI</h3>
+                        {teknoNews.slice(0, 8).map((article, index) => (
+                            <div key={index} className="col-md-4 mb-4">
+                                <div className="card">
+                                    <img src={article.thumbnail} alt={article.title} className="card-img-top cursor-pointer" />
+                                    <div className="card-body">
+                                        <a href={article.link} className="fs-5 text-decoration-none card-title title-hover" target="_blank" rel="noopener noreferrer">{article.title}</a>
+                                        <p className='text-danger'>{formatDistanceToNow(new Date(article.pubDate), { addSuffix: true })}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+                <div className="d-none d-md-block row d-flex flex-column justify-content-end align-items-end" style={{ width: '50%' }}>
+                    <h3 className='fw-bold mb-5 span-red'>HIBURAN</h3>
+                    {funNews.slice(0, 16).map((article, index) => (
+                        <div key={index} className="col-md-12 mb-4 w-100">
+                            <div className="d-flex flex-row">
+                                <img src={article.thumbnail} alt={article.title} className="card-img-top rounded-2" style={{ width: '50%', height: '50%' }} />
+                                <div className="d-flex flex-column justify-content-between mx-2">
+                                    <a href={article.link} className="text-decoration-none card-title title-hover" target="_blank" rel="noopener noreferrer">{article.title}...</a>
+                                    <p className='text-danger'>{formatDistanceToNow(new Date(article.pubDate), { addSuffix: true })}</p>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                    <h3 className='fw-bold my-5 span-red'>GAYA HIDUP</h3>
+                    {lifeNews.slice(0, 12).map((article, index) => (
+                        <div key={index} className="col-md-12 mb-4 w-100">
+                            <div className="card d-flex">
+                                <img src={article.thumbnail} alt={article.title} className="card-img-top cursor-pointer" />
+                                <div className="card-body">
+                                    <a href={article.link} className="text-decoration-none card-title title-hover" target="_blank" rel="noopener noreferrer">{article.title}...</a>
+                                    <p className='text-danger'>{formatDistanceToNow(new Date(article.pubDate), { addSuffix: true })}</p>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+            <Footer />
+        </>
+    );
+};
 
-const docLink = {
-  text: "Documentation",
-  url: "https://www.gatsbyjs.com/docs/",
-  color: "#8954A8",
-}
-
-const badgeStyle = {
-  color: "#fff",
-  backgroundColor: "#088413",
-  border: "1px solid #088413",
-  fontSize: 11,
-  fontWeight: "bold",
-  letterSpacing: 1,
-  borderRadius: 4,
-  padding: "4px 6px",
-  display: "inline-block",
-  position: "relative",
-  top: -2,
-  marginLeft: 10,
-  lineHeight: 1,
-}
-
-const links = [
-  {
-    text: "Tutorial",
-    url: "https://www.gatsbyjs.com/docs/tutorial/getting-started/",
-    description:
-      "A great place to get started if you're new to web development. Designed to guide you through setting up your first Gatsby site.",
-    color: "#E95800",
-  },
-  {
-    text: "How to Guides",
-    url: "https://www.gatsbyjs.com/docs/how-to/",
-    description:
-      "Practical step-by-step guides to help you achieve a specific goal. Most useful when you're trying to get something done.",
-    color: "#1099A8",
-  },
-  {
-    text: "Reference Guides",
-    url: "https://www.gatsbyjs.com/docs/reference/",
-    description:
-      "Nitty-gritty technical descriptions of how Gatsby works. Most useful when you need detailed information about Gatsby's APIs.",
-    color: "#BC027F",
-  },
-  {
-    text: "Conceptual Guides",
-    url: "https://www.gatsbyjs.com/docs/conceptual/",
-    description:
-      "Big-picture explanations of higher-level Gatsby concepts. Most useful for building understanding of a particular topic.",
-    color: "#0D96F2",
-  },
-  {
-    text: "Plugin Library",
-    url: "https://www.gatsbyjs.com/plugins",
-    description:
-      "Add functionality and customize your Gatsby site or app with thousands of plugins built by our amazing developer community.",
-    color: "#8EB814",
-  },
-  {
-    text: "Build and Host",
-    url: "https://www.gatsbyjs.com/cloud",
-    badge: true,
-    description:
-      "Now you’re ready to show the world! Give your Gatsby site superpowers: Build and host on Gatsby Cloud. Get started for free!",
-    color: "#663399",
-  },
-]
-
-const IndexPage = () => {
-  return (
-    <main style={pageStyles}>
-      <h1 style={headingStyles}>
-        Congratulations
-        <br />
-        <span style={headingAccentStyles}>— you just made a Gatsby site! 🎉🎉🎉</span>
-      </h1>
-      <p style={paragraphStyles}>
-        Edit <code style={codeStyles}>src/pages/index.js</code> to see this page
-        update in real-time. 😎
-      </p>
-      <ul style={listStyles}>
-        <li style={docLinkStyle}>
-          <a
-            style={linkStyle}
-            href={`${docLink.url}?utm_source=starter&utm_medium=start-page&utm_campaign=minimal-starter`}
-          >
-            {docLink.text}
-          </a>
-        </li>
-        {links.map(link => (
-          <li key={link.url} style={{ ...listItemStyles, color: link.color }}>
-            <span>
-              <a
-                style={linkStyle}
-                href={`${link.url}?utm_source=starter&utm_medium=start-page&utm_campaign=minimal-starter`}
-              >
-                {link.text}
-              </a>
-              {link.badge && (
-                <span style={badgeStyle} aria-label="New Badge">
-                  NEW!
-                </span>
-              )}
-              <p style={descriptionStyle}>{link.description}</p>
-            </span>
-          </li>
-        ))}
-      </ul>
-      <img
-        alt="Gatsby G Logo"
-        src="data:image/svg+xml,%3Csvg width='24' height='24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12 2a10 10 0 110 20 10 10 0 010-20zm0 2c-3.73 0-6.86 2.55-7.75 6L14 19.75c3.45-.89 6-4.02 6-7.75h-5.25v1.5h3.45a6.37 6.37 0 01-3.89 4.44L6.06 9.69C7 7.31 9.3 5.63 12 5.63c2.13 0 4 1.04 5.18 2.65l1.23-1.06A7.959 7.959 0 0012 4zm-8 8a8 8 0 008 8c.04 0 .09 0-8-8z' fill='%23639'/%3E%3C/svg%3E"
-      />
-    </main>
-  )
-}
-
-export default IndexPage
-
-export const Head = () => <title>Home Page</title>
+export default App;
