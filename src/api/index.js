@@ -7,7 +7,9 @@ const DATA_API = (endpoint = String) => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const url = `https://api-berita-indonesia.vercel.app/cnn/${endpoint}`;
+            const apiKey = process.env.GATSBY_API_KEY;
+            const apiURL =process.env.GATSBY_API_URL;
+            const url = `${apiURL}/cnn/${endpoint}`;
             try {
                 const response = await fetch(url);
                 if (!response.ok) {

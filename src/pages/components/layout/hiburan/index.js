@@ -25,8 +25,12 @@ const Hiburan = () => {
 
     // Memeriksa apakah ada proses yang masih loading
     const isLoading = [loading, lifeLoading, teknoLoading, funLoading, ekonomiLoading].some((status) => status);
-    if (isLoading) return <div className="text-center mt-10">Loading...</div>;
-
+    if (isLoading)
+    return (
+        <div className="flex min-h-screen items-center justify-center loading-container">
+            <div className="loader"></div>
+        </div>
+    );
     // Memeriksa apakah ada error
     const hasError = [error, lifeError, teknoError, funError, ekonomiError].find((err) => err);
     if (hasError) return <div className="text-danger text-center my-5">Error: {hasError}</div>;

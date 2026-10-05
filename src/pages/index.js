@@ -17,7 +17,12 @@ const App = () => {
 
     // Memeriksa apakah ada proses yang masih loading
     const isLoading = [loading, nasionalLoading, internasionalLoading, ekonomiLoading, olgaLoading, teknoLoading, funLoading, lifeLoading].some((status) => status);
-    if (isLoading) return <div className="text-center mt-10">Loading...</div>;
+    if (isLoading)
+    return (
+        <div className="flex min-h-screen items-center justify-center loading-container">
+            <div className="loader"></div>
+        </div>
+    );
 
     // Memeriksa apakah ada error
     const hasError = [error, nasionalError, internasionalError, ekonomiError, olgaError, teknoError, funError, lifeError].find((err) => err);
@@ -34,12 +39,12 @@ const App = () => {
             <div className="container mb-5 d-flex justify-content-between">
                 <div className="row mx-3 w-100 h-100">
                     <h3 className='fw-bold mb-5 span-red'>TERBARU</h3>
-                    {news.slice(0, 12).map((article, index) => (
+                    {news.slice(0,12).map((article, index) => (
                         <div key={index} className="col-md-4 mb-4">
                             <div className="card">
                                 <img src={article.thumbnail} alt={article.title} className="card-img-top cursor-pointer" />
                                 <div className="card-body">
-                                    <a href={article.link} className="fs-5 text-decoration-none card-title title-hover" target="_blank" rel="noopener noreferrer">{article.title}</a>
+                                    <a href={article.url} className="fs-5 text-decoration-none card-title title-hover" target="_blank" rel="noopener noreferrer">{article.description}</a>
                                     <p className='text-danger'>{formatDistanceToNow(new Date(article.pubDate), { addSuffix: true })}</p>
                                 </div>
                             </div>

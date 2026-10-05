@@ -23,8 +23,13 @@ const Teknologi = () => {
     const { data: teknoNews, loading: teknoLoading, error: teknoError } = DATA_API('teknologi');
 
     // Memeriksa apakah ada proses yang masih loading
-    const isLoading = [loading, lifeLoading, teknoLoading, funLoading].some((status) => status);
-    if (isLoading) return <div className="text-center mt-10">Loading...</div>;
+   const isLoading = [loading, teknoLoading, funLoading, lifeLoading].some((status) => status);
+    if (isLoading)
+    return (
+        <div className="flex min-h-screen items-center justify-center loading-container">
+            <div className="loader"></div>
+        </div>
+    );
 
     // Memeriksa apakah ada error
     const hasError = [error, lifeError, teknoError, funError].find((err) => err);

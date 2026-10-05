@@ -23,9 +23,13 @@ const GayaHidup = () => {
     const { data: ekonomiNews, loading: ekonomiLoading, error: ekonomiError } = DATA_API('ekonomi');
 
     // Memeriksa apakah ada proses yang masih loading
-    const isLoading = [loading, lifeLoading, funLoading, ekonomiLoading].some((status) => status);
-    if (isLoading) return <div className="text-center mt-10">Loading...</div>;
-
+    const isLoading = [loading, ekonomiLoading, , funLoading, lifeLoading].some((status) => status);
+    if (isLoading)
+    return (
+        <div className="flex min-h-screen items-center justify-center loading-container">
+            <div className="loader"></div>
+        </div>
+    );
     // Memeriksa apakah ada error
     const hasError = [error, lifeError, funError, ekonomiError].find((err) => err);
     if (hasError) return <div className="text-danger text-center my-5">Error: {hasError}</div>;

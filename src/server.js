@@ -4,12 +4,12 @@ const fetch = require('node-fetch');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
-
+const API_URL = process.env.GATSBY_API_URL 
 app.use(cors());
 
 app.get('/cnn/api/news/terkini', async (req, res) => {
     try {
-        const response = await fetch('https://api-berita-indonesia.vercel.app/cnn/terbaru/');
+        const response = await fetch(`${API_URL}/cnn/terbaru/`);
         const data = await response.json();
         res.json(data.data);
     } catch (error) {
@@ -19,7 +19,7 @@ app.get('/cnn/api/news/terkini', async (req, res) => {
 
 app.get('/cnn/api/news/nasional', async (req, res) => {
     try {
-        const response = await fetch('https://api-berita-indonesia.vercel.app/cnn/nasional/');
+        const response = await fetch(`${API_URL}/cnn/nasional/`);
         const data = await response.json();
         res.json(data.data)
     } catch (error) {
@@ -29,7 +29,7 @@ app.get('/cnn/api/news/nasional', async (req, res) => {
 
 app.get('/cnn/api/news/internasional', async (req, res) => {
     try {
-        const response = await fetch('https://api-berita-indonesia.vercel.app/cnn/internasional/');
+        const response = await fetch(`${API_URL}/cnn/internasional/`);
         const data = await response.json();
         res.json(data.data)
     } catch (error) {
@@ -39,7 +39,7 @@ app.get('/cnn/api/news/internasional', async (req, res) => {
 
 app.get('/cnn/api/news/ekonomi', async (req, res) => {
     try {
-        const response = await fetch('https://api-berita-indonesia.vercel.app/cnn/ekonomi/');
+        const response = await fetch(`${API_URL}/cnn/ekonomi/`);
         const data = await response.json();
         res.json(data.data)
     } catch (error) {
@@ -49,7 +49,7 @@ app.get('/cnn/api/news/ekonomi', async (req, res) => {
 
 app.get('/cnn/api/news/olahraga', async (req, res) => {
     try {
-        const response = await fetch('https://api-berita-indonesia.vercel.app/cnn/olahraga/');
+        const response = await fetch(`${API_URL}/cnn/olahraga/`);
         const data = await response.json();
         res.json(data.data)
     } catch (error) {
@@ -59,7 +59,7 @@ app.get('/cnn/api/news/olahraga', async (req, res) => {
 
 app.get('/cnn/api/news/teknologi', async (req, res) => {
     try {
-        const response = await fetch('https://api-berita-indonesia.vercel.app/cnn/teknologi/');
+        const response = await fetch(`${API_URL}/cnn/teknologi/`);
         const data = await response.json();
         res.json(data.data)
     } catch (error) {
@@ -69,7 +69,7 @@ app.get('/cnn/api/news/teknologi', async (req, res) => {
 
 app.get('/cnn/api/news/hiburan', async (req, res) => {
     try {
-        const response = await fetch('https://api-berita-indonesia.vercel.app/cnn/hiburan/');
+        const response = await fetch(`${API_URL}/cnn/hiburan/`);
         const data = await response.json();
         res.json(data.data)
     } catch (error) {
@@ -79,7 +79,7 @@ app.get('/cnn/api/news/hiburan', async (req, res) => {
 
 app.get('/cnn/api/news/gaya-hidup', async (req, res) => {
     try {
-        const response = await fetch('https://api-berita-indonesia.vercel.app/cnn/gayaHidup/');
+        const response = await fetch(`${API_URL}/cnn/gayaHidup/`);
         const data = await response.json();
         res.json(data.data)
     } catch (error) {

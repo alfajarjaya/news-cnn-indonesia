@@ -23,8 +23,14 @@ const Olga = () => {
     const { data: olgaNews, loading: olgaLoading, error: olgaError } = DATA_API('olahraga');
 
     // Memeriksa apakah ada proses yang masih loading
-    const isLoading = [loading, lifeLoading, olgaLoading, funLoading].some((status) => status);
-    if (isLoading) return <div className="text-center mt-10">Loading...</div>;
+   const isLoading = [loading, olgaLoading, funLoading, lifeLoading].some((status) => status);
+    if (isLoading)
+    return (
+        <div className="flex min-h-screen items-center justify-center loading-container">
+            <div className="loader"></div>
+        </div>
+    );
+
 
     // Memeriksa apakah ada error
     const hasError = [error, lifeError, olgaError, funError].find((err) => err);

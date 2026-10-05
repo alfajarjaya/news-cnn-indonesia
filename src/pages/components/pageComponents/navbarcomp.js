@@ -21,7 +21,7 @@ function NavbarComp() {
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="mx-auto">
                         {['home', 'nasional', 'internasional', 'ekonomi', 'olahraga', 'teknologi', 'hiburan', 'gayahidup'].map((page) => (
-                            <Nav.Link key={page} href={page === 'home'? '/id' : `/id/${page}`} className="mx-3 text-light">{page.charAt(0).toUpperCase() + page.slice(1)}</Nav.Link>
+                            <Nav.Link key={page} href={page === 'home'? '/' : `/id/${page}`} className="mx-3 text-light">{page.charAt(0).toUpperCase() + page.slice(1)}</Nav.Link>
                         ))}
                     </Nav>
                 </Navbar.Collapse>

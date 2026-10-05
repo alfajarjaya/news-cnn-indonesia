@@ -24,7 +24,12 @@ const Nasional = () => {
 
     // Memeriksa apakah ada proses yang masih loading
     const isLoading = [loading, nasionalLoading, lifeLoading, funLoading].some((status) => status);
-    if (isLoading) return <div className="text-center mt-10">Loading...</div>;
+    if (isLoading)
+    return (
+        <div className="flex min-h-screen items-center justify-center loading-container">
+            <div className="loader"></div>
+        </div>
+    );
 
     // Memeriksa apakah ada error
     const hasError = [error, nasionalError, lifeError, funError].find((err) => err);
